@@ -42,7 +42,7 @@ const RegisterForm = () => {
 
     <Button
         outline
-        label="Continue with Google"
+        label="Sign Up with Google"
         icon={AiOutlineGoogle}
         onClick={() => {
         }}
