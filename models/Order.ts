@@ -44,4 +44,12 @@ const OrderSchema = new Schema({
     },
 })
 
+/* type Address {
+    city: String,
+    country: String,
+    line1: String,
+    line2: String,
+    postal_code: String
+} */
+
 export const Order = models?.Order || model('Order', OrderSchema)

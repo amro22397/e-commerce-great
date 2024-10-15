@@ -37,7 +37,7 @@ const NavBar = async () => {
               E-Shop
             </Link>
 
-            <pre className=''
+            <pre className='hidden'
             >{JSON.stringify(currentUser, null, 2)}</pre>
 
             
