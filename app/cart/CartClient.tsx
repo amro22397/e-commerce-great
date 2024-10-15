@@ -6,7 +6,7 @@ import Heading from "../../components/Heading";
 import Button from "../../components/Button";
 import ItemContent from "./ItemContent";
 import { formatPrice } from "@/utils/formatPrice";
-import { SafeUser } from "@/types";
+import { SafeUser } from "../../types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteMessage from "@/components/DeleteMessage";
@@ -83,7 +83,7 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
           />
         </div>
 
-        <div className="text-sm flex flex-col gap-1 items-start">
+        <div className="text-sm flex flex-col gap-2 items-start my-5">
             <div className="flex justify-between w-full text-base font-semibold">
             <span>Subtotal</span>
             <span>{formatPrice(cartTotalAmount)}</span>
@@ -94,8 +94,10 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
           </p>
 
           <Button
-            label={"Checkout"}
+            label={currentUser ? "Checkout" : "Login To Checkout"}
+            outline={currentUser ? false : true}
             onClick={() => {
+              currentUser ? router.push("/checkout") : router.push("/login");
             }}
           />
           <Link
