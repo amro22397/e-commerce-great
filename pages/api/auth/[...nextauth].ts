@@ -4,11 +4,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/libs/prismadb";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
+import { User } from "@/models/User";
 
 
 
 export const authOptions: AuthOptions = {
-    adapter: PrismaAdapter(prisma),
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -30,18 +31,28 @@ export const authOptions: AuthOptions = {
             if (!credentials?.email || !credentials.password) {
                 throw new Error("Invalid email or password");
               }
+              mongoose.connect(process.env.DATABASE_URL as string)
       
-              const user = await prisma.user.findUnique({
-                where: {
-                  email: credentials.email,
-                },
-              });
-      
+              const user = await User.findOne({email: credentials.email})
+
               if (!user || !user?.hashedPassword) {
                 throw new Error("Invalid email or password");
               }
-            }
-        })
+
+              const isCorrectPassword = await bcrypt.compare(
+                credentials.password,
+                user.hashedPassword
+              );
+      
+              if (!isCorrectPassword) {
+                throw new Error("Invalid email or password");
+              }
+      
+              return user;
+
+              }
+            
+      })
     ]
 }
 

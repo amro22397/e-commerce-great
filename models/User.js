@@ -5,6 +5,10 @@ const UserSchema = new Schema({
         type: String,
     },
 
+    name: {
+        type: String,
+    },
+
     username: {
         type: String,
     },
@@ -29,6 +33,12 @@ const UserSchema = new Schema({
     hashedPassword: {
         type: String,
     },
+
+    role: {
+        type: String,
+        default: 'USER',
+    },
+
 
 
 
