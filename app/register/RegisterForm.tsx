@@ -12,9 +12,22 @@ import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { error } from "console";
+import { SafeUser } from "@/types";
 
+interface RegisterFormProps {
+  currentUser: SafeUser | null;
+}
 
-const RegisterForm = () => {
+const RegisterForm:React.FC<RegisterFormProps> = ({ currentUser }) => {
+
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => {
+        router.push('/')
+      router.refresh()
+      }, 3000);
+    }
+  }, []);
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -60,6 +73,12 @@ const RegisterForm = () => {
     })
   }
 
+  if (currentUser) {
+    return (
+      <p className="text-center font-semibold text-lg">You are already logged in, Redirecting...</p>
+    )
+
+  }
   
   return (
     <>
@@ -70,6 +89,7 @@ const RegisterForm = () => {
         label="Sign Up with Google"
         icon={AiOutlineGoogle}
         onClick={() => {
+          signIn('google');
         }}
       />
 

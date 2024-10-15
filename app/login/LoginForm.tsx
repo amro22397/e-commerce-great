@@ -11,9 +11,12 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { SafeUser } from "@/types";
 
-
-const LoginForm = () => {
+interface LoginFormProps {
+  currentUser: SafeUser | null;
+}
+const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -29,12 +32,43 @@ const LoginForm = () => {
 
   const router = useRouter();
 
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => {
+        router.push('/')
+      router.refresh()
+      }, 3000);
+    }
+  }, []);
+
   const onSubmit:SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true); 
-    console.log(data)
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      if (callback?.ok) {
+        router.push('/cart');
+        router.refresh();
+        toast.success('Logged In');
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+
+      setIsLoading(false)
+    })
   }
 
-  
+  if (currentUser) {
+    return (
+      <p className="text-center font-semibold text-lg">You are already loggen in, Redirecting...</p>
+    )
+
+  }
+
+
   return (
     <>
     <Heading title="Login into E-commerce" />
@@ -44,6 +78,7 @@ const LoginForm = () => {
         label="Continue with Google"
         icon={AiOutlineGoogle}
         onClick={() => {
+          signIn('google');
         }}
       />
 

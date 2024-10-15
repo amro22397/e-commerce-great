@@ -4,11 +4,16 @@ import Link from 'next/link'
 import { Redressed } from 'next/font/google'
 import CartCount from './CartCount'
 import UserMenu from './UserMenu'
+import { getCurrentUser } from '@/actions/getCurrentUser'
+import { json } from 'stream/consumers'
 
 
 const redressed = Redressed({ subsets: ['latin'], weight: ["400"]})
 
-const NavBar = () => {
+const NavBar = async () => {
+  const currentUser = await getCurrentUser();
+
+
   return (
     <div className='sticky
   top-0
@@ -18,6 +23,7 @@ const NavBar = () => {
   shadow-sm'>
       <div className="py-4 border-b-[1px]">
         <Container>
+          
           <div className="flex
           items-center
           justify-between
@@ -31,10 +37,18 @@ const NavBar = () => {
               E-Shop
             </Link>
 
+            <pre className=''
+            >{JSON.stringify(currentUser, null, 2)}</pre>
+
+            
             <div className="hidden md:block"></div>
             <div className="flex items-center gap-8 md:gap-12">
+              {currentUser && (
+                <span className="">Hello, {currentUser?._doc.name}</span>
+              )}
+
               <CartCount />
-              <UserMenu />
+              <UserMenu currentUser={currentUser?._doc} />
             </div>
 
           </div>

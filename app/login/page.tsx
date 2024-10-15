@@ -1,12 +1,14 @@
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import Container from "../../components/Container";
 import FormWrap from "../../components/FormWrap";
 import LoginForm from "./LoginForm"
 
-const page = () => {
+const page = async () => {
+  const currentUser = await getCurrentUser();
   return (
     <Container>
       <FormWrap>
-        <LoginForm />
+        <LoginForm currentUser={currentUser?._doc}/>
       </FormWrap>
     </Container>
   )
