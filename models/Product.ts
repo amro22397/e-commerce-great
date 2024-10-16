@@ -29,7 +29,7 @@ const ProductSchema = new Schema({
         type: Boolean,
     },
 
-    image: {
+    images: {
         type: Array,
     },
 
