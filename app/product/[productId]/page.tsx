@@ -1,23 +1,28 @@
 import Container from "@/components/Container";
 import ProductDetails from "./ProductDetails";
 import ListRating from "./ListRating";
-import getProducts, { IProductParams } from "@/actions/getProducts";
+import getProductById from "@/actions/getProductById";
 
 
 interface Iprams {
     productId?: string;
 }
 
-interface HomeProps{
+/* interface HomeProps{
   searchParams: IProductParams
-}
-const page = async ({ params, searchParams }: { params: Iprams, searchParams: IProductParams }) => {
+} */
 
-  const products: any = await getProducts(searchParams)
+const page = async ({ params }: { params: Iprams }) => {
 
-const product = products.find((item: any) => item._id === params.productId)
+  const product = await getProductById(params)
 
-console.log(product)
+  if (!product) {
+    return (
+      <span className="">
+        This product does not exist
+      </span>
+    )
+  }
 
   return (
     <div className="p-8">
