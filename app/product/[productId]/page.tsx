@@ -1,15 +1,23 @@
 import Container from "@/components/Container";
 import ProductDetails from "./ProductDetails";
 import ListRating from "./ListRating";
-import { products } from "@/utils/products";
+import getProducts, { IProductParams } from "@/actions/getProducts";
 
 
 interface Iprams {
     productId?: string;
 }
-const page = ({ params }: { params: Iprams }) => {
 
-const product = products.find(product => product.id === params.productId)
+interface HomeProps{
+  searchParams: IProductParams
+}
+const page = async ({ params, searchParams }: { params: Iprams, searchParams: IProductParams }) => {
+
+  const products: any = await getProducts(searchParams)
+
+const product = products.find((item: any) => item._id === params.productId)
+
+console.log(product)
 
   return (
     <div className="p-8">

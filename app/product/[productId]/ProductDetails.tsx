@@ -38,6 +38,8 @@ interface ProductDetailsProps {
   };
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+
+
     const {handleAddProductToCart, cartProducts} = useCart();
     console.log(cartProducts)
     const {cartTotalQty} = useCart();

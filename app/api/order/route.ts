@@ -10,7 +10,9 @@ export async function PUT(request: Request) {
 
     mongoose.connect(process.env.DATABASE_URL as string);
 
-    if (!currentUser || currentUser._doc.role !== 'ADMIN') {
+    if (!currentUser) return NextResponse.error();
+
+    if (currentUser._doc.role !== 'ADMIN') {
         return NextResponse.error();
     }
 
