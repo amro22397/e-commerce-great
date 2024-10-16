@@ -1,24 +1,20 @@
 import Container from "@/components/Container";
-import ProductDetails from "./ProductDetails";
-import ListRating from "./ListRating";
-import { products } from "@/utils/products";
+import OrderDetails from "./OrderDetails";
+import getOrderById from "@/actions/getOrderById";
 
 
 interface Iprams {
-    productId?: string;
+    orderId?: string;
 }
-const page = ({ params }: { params: Iprams }) => {
+const page = async ({ params }: { params: Iprams }) => {
 
-const product = products.find(product => product.id === params.productId)
+    const order = await getOrderById(params)
 
   return (
     <div className="p-8">
       <Container>
-        <ProductDetails product={product} />
-        <div className="flex flex-col mt-20 gap-4">
-
-        <ListRating product={product} />
-        </div>
+        <OrderDetails order={order} />
+        
       </Container>
     </div>
   )
