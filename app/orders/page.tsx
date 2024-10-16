@@ -4,6 +4,7 @@ import NullData from '@/components/NullData'
 import React from 'react'
 import getOrders from '@/actions/getOrders'
 import getOrdersByUserId from '@/actions/getOrderByUserId'
+import OrderClient from './OrderClient'
 
 const page = async () => {
     const currentUser = await getCurrentUser()
@@ -23,6 +24,7 @@ const page = async () => {
     <div className="pt-8">
     <Container>
     <pre className="hidden">{JSON.stringify(currentUser, null, 2)}</pre>
+    <OrderClient orders={orders} />
     </Container>
   </div>
   )
