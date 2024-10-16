@@ -9,7 +9,9 @@ export async function POST(request: Request) {
 
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== 'admin') {
+    console.log(currentUser);
+
+    if (!currentUser || currentUser._doc.role !== 'ADMIN') {
         return NextResponse.error();
     }
 

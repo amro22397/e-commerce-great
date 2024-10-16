@@ -76,6 +76,7 @@ const SelectColor: React.FC<SelectColorProps> = ({
                 onClick={() => {
                   setFile(null);
                   removeImageFromState(item);
+                  setIsSelected(false);
                 }}
               />
             </div>

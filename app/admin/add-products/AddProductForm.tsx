@@ -21,6 +21,7 @@ import { categories } from "@/utils/Categories";
 import CategoryInput from "@/components/inputs/CategoryInput";
 import { setConstantValue } from "typescript";
 import { colors } from "@/utils/colors";
+import SelectColor from "@/components/inputs/SelectColor";
 
 export type ImageType = {
     color: string;
@@ -53,6 +54,111 @@ const AddProductForm = () => {
     }
   })
 
+  useEffect(() => {
+    setCustomValue("images", images)
+  }, [images])
+
+  useEffect(() => {
+    if (isProductCreated) {
+        reset();
+        setImages(null);
+        setIsProductCreated(false)
+    }
+  }, [isProductCreated]);
+  
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    
+    
+    setIsLoading(true);
+    let uploadedImages: UploadedImageType[] = [];
+
+    if (!data.category) {
+        setIsLoading(false);
+        return toast.error("Category is not selected")
+    }
+
+    if (!data.images || data.images.length === 0) {
+        setIsLoading(false);
+        return toast.error("No selected image!");
+      }
+
+      const handleImageUploads = async () => {
+        toast("Creating product, please wait...");
+
+        try {
+            for (const item of data.images) {
+                if (item.image) {
+                    const fileName = new Date().getTime() + '-' + item.image.name;
+                    const storage = getStorage(firebaseApp);
+                    const storageRef = ref(storage, `products/${fileName}`);
+                    const uploadTask = uploadBytesResumable(storageRef, item.image);
+
+                    await new Promise<void>((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                const progress =
+                                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                console.log("Upload is " + progress + "% done");
+                                switch (snapshot.state) {
+                                  case "paused":
+                                    console.log("Upload is paused");
+                                    break;
+                                  case "running":
+                                    console.log("Upload is running");
+                                    break;
+                                }
+                              },
+
+                              (error) => {
+                                console.log('Error uploading image', error);
+                                reject(error);
+                              },
+                              () => {
+                                getDownloadURL(uploadTask.snapshot.ref).then(
+                                    (downloadedURL) => {
+                                        uploadedImages.push({
+                                            ...item,
+                                            image: downloadedURL,
+                                        });
+                                        console.log("File available at", downloadedURL);
+                                        resolve();
+                                    }
+                                )
+                                .catch((error) => {
+                                    console.log("Error getting the download URL", error);
+                                    reject(error);
+                                })
+                              }
+                        )
+                    })
+                }
+            }
+        } catch (error) {
+            setIsLoading(false);
+        console.log("Error handling image uploads", error);
+        return toast.error("Error handling image uploads");
+        }
+      };
+
+      await handleImageUploads();
+      const productData = { ...data, images: uploadedImages };
+
+      axios
+      .post("/api/product", productData)
+      .then(() => {
+        toast.success("Product created");
+        setIsProductCreated(true);
+        router.refresh();
+      })
+      .catch((error) => {
+        toast.error("Something went wrong while saving the product")
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  }
+
+
   const category = watch('category');
 
   const setCustomValue = (id: string, value: any) => {
@@ -62,6 +168,30 @@ const AddProductForm = () => {
         shouldTouch: true,
     })
   }
+
+  const addImageToState = useCallback((value: ImageType) => {
+    setImages((prev) => {
+        if (!prev) {
+            return [value];
+        }
+
+        return [...prev, value];
+    })
+  }, []);
+
+  const removeImageFromState = useCallback((value: ImageType) => {
+    setImages((prev) => {
+        if (prev) {
+            const filterdImages = prev.filter(item => item.color !== value.color);
+
+            return filterdImages;
+        }
+
+        return prev;
+    });
+  }, []);
+
+  console.log(images);
 
   return (
     <>
@@ -144,11 +274,22 @@ const AddProductForm = () => {
         <div className="grid grid-cols-2 gap-3">
           {colors.map((item, index) => {
             return (
-              <></>
+                <SelectColor
+                key={index}
+                item={item}
+                addImageToState={addImageToState}
+                removeImageFromState={removeImageFromState}
+                isProductCreated={isProductCreated}
+              />
             );
           })}
         </div>
       </div>
+
+      <Button
+        label={isLoading ? "Loading..." : "Add Product"}
+        onClick={handleSubmit(onSubmit)}
+      />
     </>
   )
 }
