@@ -17,6 +17,10 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/inputs/Input";
 import TextArea from "@/components/inputs/TextArea";
 import CustomCheckBox from "@/components/inputs/CustomCheckBox";
+import { categories } from "@/utils/Categories";
+import CategoryInput from "@/components/inputs/CategoryInput";
+import { setConstantValue } from "typescript";
+import { colors } from "@/utils/colors";
 
 export type ImageType = {
     color: string;
@@ -48,6 +52,16 @@ const AddProductForm = () => {
       price: "",
     }
   })
+
+  const category = watch('category');
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+    })
+  }
 
   return (
     <>
@@ -92,6 +106,49 @@ const AddProductForm = () => {
         register={register}
         label="This product is in stock"
       />
+
+      <div className="font-medium w-full">
+      <div className="mb-2 font-semibold">Select a Category</div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h[50vh] overflow-y-auto">
+        {categories.map((item) => {
+            if (item.label === "All") {
+                return null
+            }
+
+            return (
+                <div className="col-span" key={item.label}>
+                    <CategoryInput
+                    onClick={(category) => setCustomValue('category', category)}
+                    selected={category === item.label}
+                    label={item.label}
+                    icon={item.icon}
+                    />
+                </div>
+            )
+        })}
+      </div>
+      </div>
+
+      <div className="w-full flex flex-col flex-wrap gap-4">
+        <div className="">
+        <div className="font-bold">
+            Select the available product colors and upload their images.
+          </div>
+          <div className="text-sm">
+            You must upload an image for each of the color selected otherwise
+            your color selection will be ignored.
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          {colors.map((item, index) => {
+            return (
+              <></>
+            );
+          })}
+        </div>
+      </div>
     </>
   )
 }
