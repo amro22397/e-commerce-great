@@ -1,11 +1,27 @@
-import React from 'react'
+import { IconType } from "react-icons";
 
-const Status = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+interface StatusProps {
+  text: string;
+  icon: IconType;
+  bg: string;
+  color: string;
 }
 
-export default Status
+const Status: React.FC<StatusProps> = ({ text, icon: Icon, bg, color }) => {
+  return (
+    <div
+      className={`
+    ${color}
+    px-1
+    rounded
+    flex
+    items-center
+    gap-1
+    `}
+    >
+      {text} <Icon size={15} />
+    </div>
+  );
+};
+
+export default Status;

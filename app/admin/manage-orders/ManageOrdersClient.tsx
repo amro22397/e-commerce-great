@@ -21,10 +21,10 @@ import Status from "@/components/Status";
 import ActionBtn from "@/components/ActionBtn";
 import DeleteMessage from "@/components/DeleteMessage";
 
-interface ManageProductsClientProps {
+interface ManageOrdersClientProps {
     products: any[] | undefined;
 }
-const ManageProductsClient: React.FC<ManageProductsClientProps> = ({ products }) => {
+const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => {
 
     console.log(products)
 
@@ -200,4 +200,4 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({ products })
   )
 }
 
-export default ManageProductsClient
+export default ManageOrdersClient

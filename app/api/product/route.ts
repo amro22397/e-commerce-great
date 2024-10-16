@@ -9,8 +9,6 @@ export async function POST(request: Request) {
 
     const currentUser = await getCurrentUser();
 
-    console.log(currentUser);
-
     if (!currentUser || currentUser._doc.role !== 'ADMIN') {
         return NextResponse.error();
     }
@@ -27,4 +25,20 @@ export async function POST(request: Request) {
         price: parseFloat(price), });
 
     return NextResponse.json(product);
+}
+
+export async function PUT(request: Request) {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser || currentUser._doc.role !== 'ADMIN') {
+        return NextResponse.error();
+    }
+
+    const body = await request.json();
+    const { id, inStock } = body;
+
+    const product = await Product.findByIdAndUpdate({_id: id}, { inStock } )
+
+    return NextResponse.json(product);
+
 }
