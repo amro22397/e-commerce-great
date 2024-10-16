@@ -13,7 +13,7 @@ const page = async () => {
         return (
             <>
             <pre className="hidden">{JSON.stringify(currentUser, null, 2)}</pre>
-            <NullData title="You are not allowed to access this page 21" />
+            <NullData title="You are not allowed to access this page" />
             </>
         );
       }

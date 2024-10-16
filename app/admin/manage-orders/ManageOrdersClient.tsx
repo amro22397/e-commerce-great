@@ -1,94 +1,132 @@
 "use client";
 
+import { Order, User } from "@prisma/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { formatPrice } from "@/utils/formatPrice";
 import Heading from "@/components/Heading";
+import Status from "@/components/Status";
 import {
-  MdCached,
-  MdClose,
-  MdDelete,
+  MdAccessTimeFilled,
+  MdDeliveryDining,
   MdDone,
   MdRemoveRedEye,
 } from "react-icons/md";
+import ActionBtn from "@/components/ActionBtn";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { deleteObject, getStorage, ref } from "firebase/storage";
-import firebaseApp from "@/libs/firebase";
-import { Paper } from "@mui/material";
-import Status from "@/components/Status";
-import ActionBtn from "@/components/ActionBtn";
-import DeleteMessage from "@/components/DeleteMessage";
+import moment from "moment";
 
 interface ManageOrdersClientProps {
-    products: any[] | undefined;
+  orders: ExtendedOrder[];
 }
-const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => {
 
-    console.log(products)
+type ExtendedOrder = Order & {
+  user: User;
+};
+
+const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 
     const [deleteMessage, setDeleteMessage] = useState(false);
 
     const router = useRouter();
-  const storage = getStorage(firebaseApp);
 
   let rows: any = [];
 
-  if (products) {
-    rows = products.map((product) => {
-        return {
-            id: product._id,
-            name: product.name,
-        price: formatPrice(product.price),
-        category: product.category,
-        brand: product.brand,
-        inStock: product.inStock,
-        images: product.images,
-        }
-    })
+  if (orders) {
+    rows = orders.map((order) => {
+      return {
+        id: order.id,
+        customer: order.user.name,
+        amount: formatPrice(order.amount / 100),
+        paymentStatus: order.status,
+        date: moment(order.createDate).fromNow(),
+        deliveryStatus: order.deliveryStatus,
+      };
+    });
   }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 220 },
-    { field: "name", headerName: "Name", width: 220 },
+    { field: "customer", headerName: "Customer Name", width: 130 },
     {
-      field: "price",
-      headerName: "Price(USD)",
-      width: 100,
+      field: "amount",
+      headerName: "Amount(USD)",
+      width: 130,
       renderCell: (params) => {
         return (
-          <div className="font-bold text-slate-800">{params.row.price}</div>
+          <div className="font-bold text-slate-800">{params.row.amount}</div>
         );
       },
     },
-    { field: "category", headerName: "Category", width: 100 },
-    { field: "brand", headerName: "Brand", width: 100 },
     {
-      field: "inStock",
-      headerName: "inStock",
-      width: 120,
+      field: "paymentStatus",
+      headerName: "Payment Status",
+      width: 130,
       renderCell: (params) => {
         return (
-            <div>
-            {params.row.inStock === true ? (
+          <div>
+            {params.row.paymentStatus === "pending" ? (
               <Status
-                text="in stock"
+                text="pending"
+                icon={MdAccessTimeFilled}
+                bg="bg-slate-200"
+                color="text-slate-700"
+              />
+            ) : params.row.paymentStatus === "complete" ? (
+              <Status
+                text="completed"
                 icon={MdDone}
-                bg="bg-teal-200"
-                color="text-teal-700"
+                bg="bg-green-200"
+                color="text-green-700"
               />
             ) : (
-              <Status
-                text="out of stock"
-                icon={MdClose}
-                bg="bg-rose-200"
-                color="text-rose-700"
-              />
+              <></>
             )}
           </div>
         );
       },
+    },
+    {
+      field: "deliveryStatus",
+      headerName: "Delivery Status",
+      width: 130,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.deliveryStatus === "pending" ? (
+              <Status
+                text="pending"
+                icon={MdAccessTimeFilled}
+                bg="bg-slate-200"
+                color="text-slate-700"
+              />
+            ) : params.row.deliveryStatus === "dispatched" ? (
+              <Status
+                text="dispatched"
+                icon={MdDeliveryDining}
+                bg="bg-purple-200"
+                color="text-purple-700"
+              />
+            ) : params.row.deliveryStatus === "delivered" ? (
+              <Status
+                text="delivered"
+                icon={MdDone}
+                bg="bg-green-200"
+                color="text-green-700"
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 130,
     },
     {
       field: "action",
@@ -96,24 +134,23 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => 
       width: 200,
       renderCell: (params) => {
         return (
-            <div className="flex flex-row justify-between gap-4 w-full
-            mt-[10.35px]">
+          <div className="flex justify-between gap-4 w-full">
             <ActionBtn
-              icon={MdCached}
+              icon={MdDeliveryDining}
               onClick={() => {
-                handleToggleStock(params.row.id, params.row.inStock);
+                /* handleDispatch(params.row.id); */
               }}
             />
             <ActionBtn
-              icon={MdDelete}
+              icon={MdDone}
               onClick={() => {
-                handleDelete(params.row.id, params.row.images);
+                /* handleDeliver(params.row.id); */
               }}
             />
             <ActionBtn
               icon={MdRemoveRedEye}
               onClick={() => {
-                router.push(`product/${params.row.id}`);
+                router.push(`/order/${params.row.id}`);
               }}
             />
           </div>
@@ -122,14 +159,14 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => 
     },
   ];
 
-  const handleToggleStock = useCallback((id: string, inStock: boolean) => {
+  const handleDispatch = useCallback((id: string) => {
     axios
-    .put("/api/product", {
+    .put("/api/order", {
         id,
-        inStock: !inStock,
+        deliveryStatus: "dispatched"
     })
-    .then(( res) => {
-        toast.success("Product status changed")
+    .then((res) => {
+        toast.success("Order Dispatched")
         router.refresh();
     })
     .catch((error) => {
@@ -138,36 +175,22 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => 
     })
   }, [])
 
-  const handleDelete = useCallback( async (id: string, images: any[]) => {
-    toast("Deleting product, please wait...");
-
-    const handleImageDelete = async () => {
-        try {
-            for (const item of images) {
-                if (item.image) {
-                    const imageRef = ref(storage, item.image);
-                    await deleteObject(imageRef);
-                    console.log("image deleted", item.image)
-                }
-            }
-        } catch (error) {
-            return console.log("Deleting images error", error);
-        }
-    };
-
-    await handleImageDelete();
-
+  const handleDeliver = useCallback((id: string) => {
     axios
-    .delete(`/api/product/${id}`)
+    .put("/api/order", {
+        id,
+        deliveryStatus: "delivered"
+    })
     .then((res) => {
-        toast.success("Product deleted")
+        toast.success("Order Delivered")
         router.refresh();
     })
     .catch((error) => {
-        toast.error("Failed to delete product");
+        toast.error('Something went wrong');
         console.log(error);
     })
   }, [])
+
 
   return (
     <div className="max-w-[1150px] m-auto text-xl relative">
@@ -180,7 +203,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ products }) => 
         */}
 
       <div className="mb-4 mt-8">
-        <Heading title="Manage Products" center />
+        <Heading title="Manage Orders" center />
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid
