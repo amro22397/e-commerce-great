@@ -22,7 +22,7 @@ const page = async () => {
     <div className="pt-8">
     <Container>
     <pre className="hidden">{JSON.stringify([], null, 2)}</pre>
-      <ManageOrdersClient />
+      <ManageOrdersClient orders={orders}/>
     </Container>
   </div>
   )
