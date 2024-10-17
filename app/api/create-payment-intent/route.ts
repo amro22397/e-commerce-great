@@ -66,22 +66,27 @@ export async function POST(request: Request) {
         ]);
     
         if (!existing_order) {
-            return NextResponse.json(
-                {error: "Invalid Payment Intent" },
-                { status: 400 }
-            );
+            return NextResponse.error();
         }
     
         return NextResponse.json({ paymentIntent: updated_intent })
 
     }
 
-    
   } else {
     const paymentIntent = await stripe.paymentIntents.create({
         amount: total,
         currency: 'usd',
         automatic_payment_methods: { enabled: true },
     });
+
+    orderData.paymentIntentId = paymentIntent.id;
+
+    await Order.create(orderData);
+
+    return NextResponse.json({ paymentIntent })
   }
+
+
+  return NextResponse.error();
 }
