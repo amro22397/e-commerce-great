@@ -7,6 +7,7 @@ import UserMenu from './UserMenu'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import { json } from 'stream/consumers'
 import Categories from './Categories'
+import SearchBar from '../SearchBar'
 
 
 const redressed = Redressed({ subsets: ['latin'], weight: ["400"]})
@@ -42,7 +43,10 @@ const NavBar = async () => {
             >{JSON.stringify(currentUser, null, 2)}</pre>
 
             
-            <div className="hidden md:block"></div>
+            <div className="hidden md:block">
+            <SearchBar />
+            </div>
+            
             <div className="flex items-center gap-8 md:gap-12">
               {currentUser && (
                 <span className="">Hello, {currentUser?._doc.name}</span>
