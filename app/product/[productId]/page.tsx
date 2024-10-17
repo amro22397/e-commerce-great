@@ -2,6 +2,8 @@ import Container from "@/components/Container";
 import ProductDetails from "./ProductDetails";
 import ListRating from "./ListRating";
 import getProductById from "@/actions/getProductById";
+import AddRating from "./AddRating";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 
 interface Iprams {
@@ -15,21 +17,23 @@ interface Iprams {
 const page = async ({ params }: { params: Iprams }) => {
 
   const product = await getProductById(params)
+  const user = await getCurrentUser();
 
   if (!product) {
     return (
-      <span className="">
-        This product does not exist
-      </span>
+      <div className="text-center text-lg my-20">
+        This product does not exist...
+      </div>
     )
   }
 
   return (
     <div className="p-8">
       <Container>
+        <pre className="hidden">{JSON.stringify(user, null, 2)}</pre>
         <ProductDetails product={product} />
         <div className="flex flex-col mt-20 gap-4">
-
+          <AddRating product={product} user={user?._doc} />
         <ListRating product={product} />
         </div>
       </Container>

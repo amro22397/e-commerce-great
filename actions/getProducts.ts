@@ -1,27 +1,29 @@
 import { Product } from "@/models/Product";
+import mongoose from "mongoose";
 
 export interface IProductParams {
     category?: string | null;
     searchTerm?: string | null;
-  }
+}
 
   export default async function getProducts(params: IProductParams) {
     
     try {
-        const {category, searchTerm} = params;
-        let searchString = searchTerm;
 
-        if (!searchTerm) {
-            searchString = "";
-        }
+        mongoose.connect(process.env.DATABASE_URL as string);
 
+        const { category, searchTerm } = params;
+    let searchString = searchTerm;
 
-        let query: any = {}
+    if (!searchTerm) {
+      searchString = "";
+    }
 
-        if (category) {
-            query.category = category;
-        }
+    let query: any = {};
 
+    if (category) {
+      query.category = category;
+    }
         const products = await Product.find({
             ...query,
             $or: [
@@ -30,8 +32,10 @@ export interface IProductParams {
             ]
         }).sort({createdAt: -1})
 
+        console.log(products)
+
         return products;
     } catch (error) {
-        
+        console.log(error)
     }
   }
