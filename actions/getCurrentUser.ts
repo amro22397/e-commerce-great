@@ -15,7 +15,10 @@ export async function getCurrentUser() {
       return null;
     }
 
-        const currentUser = await User.findOne({ email: session?.user?.email })
+        const currentUser = await User.findOne({ email: session?.user?.email,
+            order: { $exists: true }
+         }
+        )
 
         if (!currentUser) {
             return null

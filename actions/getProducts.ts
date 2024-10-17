@@ -16,15 +16,15 @@ export interface IProductParams {
         }
 
 
-        let query:any = {}
+        let query: any = {}
 
         if (category) {
             query.category = category;
         }
 
         const products = await Product.find({
+            ...query,
             $or: [
-                {...query},
                 {name: {$regex: searchString, $options: "i"}},
                 {description: {$regex: searchString, $options: "i"}}
             ]
