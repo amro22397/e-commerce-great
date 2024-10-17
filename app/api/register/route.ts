@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     mongoose.connect(process.env.DATABASE_URL as string);
+
     const body = await request.json();
     const { name, email, password } = body;
 
