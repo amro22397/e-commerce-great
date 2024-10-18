@@ -20,15 +20,6 @@ interface RegisterFormProps {
 
 const RegisterForm:React.FC<RegisterFormProps> = ({ currentUser }) => {
 
-  useEffect(() => {
-    if (currentUser) {
-      setTimeout(() => {
-        router.push('/')
-      router.refresh()
-      }, 3000);
-    }
-  }, []);
-
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
