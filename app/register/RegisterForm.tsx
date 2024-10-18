@@ -11,15 +11,15 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { SafeUser } from "@/types";
 
 interface RegisterFormProps {
-  currentUser: SafeUser | null;
+  currentUser: any | null;
 }
 
 const RegisterForm:React.FC<RegisterFormProps> = ({ currentUser }) => {
 
   const [isLoading, setIsLoading] = useState(false);
+  
   const {
     register,
     handleSubmit,
