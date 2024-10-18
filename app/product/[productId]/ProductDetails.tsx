@@ -10,6 +10,9 @@ import { useCart } from '@/hooks/useCart'
 import { MdCheckCircle } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { formatPrice } from '@/utils/formatPrice';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 interface ProductDetailsProps {
     product: any;
@@ -42,7 +45,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
 
     const {handleAddProductToCart, cartProducts} = useCart();
     console.log(cartProducts)
-    const {cartTotalQty} = useCart();
+    const { cartTotalQty } = useCart();
     
     const [isProductInCart, setIsProductInCart] = useState(false);
     const [cartProduct, setCartProduct] = useState<CartProductType>({
@@ -61,7 +64,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
 
         if (cartProducts) {
             const existingIndex = cartProducts.findIndex(
-                item => item.id === product.id
+                item => item.id === product._id
             );
 
             if (existingIndex > -1) {
@@ -102,7 +105,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     const router = useRouter()
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-12'>
         
         <ProductImage
         cartProduct={cartProduct}
@@ -110,7 +113,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         handleColorSelect={handleColorSelect}
       />
 
-      <div className="flex flex-col gap-1 text-slate-500 text-sm">
+      <div className="flex flex-col gap-1 text-slate-500 text-sm justify-center">
       <h2 className="text-3xl font-medium text-slate-700">{product.name}</h2>
 
       <div className="flex items-center gap-2">
@@ -131,6 +134,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           {product.inStock ? "In stock" : "Out of stock"}
         </div>
 
+        <div className='my-2 text-lg'>
+          <span className="font-semibold">PRICE:</span> {formatPrice(product.price)}
+        </div>
+
         <Horizontal />
 
         {isProductInCart
@@ -141,12 +148,20 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
               <span>Product is already added to cart</span>
             </p>
 
-            <div className="max-w-[300px]">
+            <div className="max-w-[300px] flex flex-col gap-3">
               <Button
                 label="View Cart"
                 outline
                 onClick={() => {
                   router.push("/cart");
+                }}
+              />
+              
+              <Button
+                label="< Continue shopping"
+                moreClass='bg-gray-700 text-white border-none hover:bg-gray-800'
+                onClick={() => {
+                  router.push("/");
                 }}
               />
             </div>

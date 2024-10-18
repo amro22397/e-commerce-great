@@ -1,4 +1,7 @@
 import { Order } from "@/models/Order";
+import { OrderObj } from "@/models/OrderObj";
+import { getCurrentUser } from "./getCurrentUser";
+import { NextResponse } from "next/server";
 
 interface IParams {
     orderId?: string;
@@ -7,9 +10,14 @@ interface IParams {
   
   export default async function getOrderById(params: IParams) {
     try {
+
+        const currentUser = await getCurrentUser();
+    
+        if (!currentUser) return NextResponse.error();
+
         const { orderId } = params;
 
-        const order = await Order.findOne({ _id: orderId });
+        const order = await OrderObj.findOne({ _id: orderId });
 
         if (!order) return null;
 

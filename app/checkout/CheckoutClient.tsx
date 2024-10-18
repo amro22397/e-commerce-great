@@ -9,9 +9,9 @@ import toast from 'react-hot-toast';
 import CheckoutForm from './CheckoutForm';
 import Button from '@/components/Button';
 
-const stripePromise = loadStripe(
+/* const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
-  );
+  ); */
 
 const CheckoutClient = () => {
 
@@ -24,7 +24,8 @@ const CheckoutClient = () => {
   const router = useRouter();
 
 
-  useEffect(() => {
+  /* 
+useEffect(() => {
     if (cartProducts) {
         setLoading(true);
         setError(false);
@@ -71,8 +72,24 @@ const CheckoutClient = () => {
     setPaymentSuccess(value);
   }, [])
 
+  */
+
   return (
-    <div className='w-full'>
+    <div className='w-full flex flex-col gap-6 justify-center'>
+        <span className="text-center text-rose-600">
+            Checkout Form is not available now I will make it available once
+            I make Stripe Account...
+        </span>
+
+        <Button
+                label="Your Orders"
+                moreClass='bg-gray-700 text-white border-none hover:bg-gray-800
+                w-[300px] mx-auto'
+                onClick={() => {
+                  router.push("/orders");
+                }}
+              />
+
       {/* clientSecret && cartProducts && (
         <Elements options={options} stripe={stripePromise}>
             <CheckoutForm 
@@ -80,7 +97,7 @@ const CheckoutClient = () => {
             handleSetPaymentSuccess={handleSetPaymentSuccess}
             />
         </Elements>
-      ) */}
+      )
 
 <Elements options={options} stripe={stripePromise}>
             <CheckoutForm 
@@ -89,7 +106,7 @@ const CheckoutClient = () => {
             />
         </Elements>
 
-{/* 
+
 {loading && <div className="text-center">Loading Checkout...</div>}
       {error && (
         <div className="text-center text-rose-500">Something went wrong...</div>

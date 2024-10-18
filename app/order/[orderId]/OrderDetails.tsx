@@ -18,16 +18,18 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <Heading title="Order Details" />
       </div>
 
-      <div>Order ID: {order.id}</div>
+      <div> <span className="font-semibold">Order ID: </span>
+        {order._id}</div>
 
       <div>
-        Total Amount:{" "}
+        <span className="font-semibold">Total Amount:{" "}</span>
+        
         <span className="font-bold">{formatPrice(order.amount)}</span>
       </div>
 
-      <div className="flex gap-2 items-center"></div>
+      <div className="flex gap-2 items-center">
 
-      <div>Payment status:</div>
+      <div className="font-semibold" >Payment status:</div>
         <div>
           {order.status === "pending" ? (
             <Status
@@ -48,8 +50,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           )}
         </div>
 
+      </div>
+      
+
         <div className="flex gap-2 items-center">
-        <div>Delivery status:</div>
+        <div className="font-semibold">Delivery status:</div>
         <div>
           {order.deliveryStatus === "pending" ? (
             <Status
@@ -78,10 +83,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         </div>
         </div>
 
-        <div>Date: {moment(order.createDate).fromNow()}</div>
-      <div>
+        <div> <span className="font-semibold">Order since: </span>
+             {moment(order.createDate).fromNow()}</div>
+
+
+      <div className="text-xl flex flex-col gap-3 mt-8">
         <h2 className="font-semibold mt-4 mb-2">Products ordered</h2>
-        <div className="grid grid-cols-5 text-xs gap-4 pb-2 items-center">
+        <div className="grid grid-cols-5 text-sm font-semibold gap-4 pb-2 items-center">
           <div className="col-span-2 justify-self-start">PRODUCT</div>
           <div className="justify-self-center">PRICE</div>
           <div className="justify-self-center">QTY</div>
@@ -89,7 +97,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         </div>
         {order.products &&
           order.products.map((item) => {
-            return <>{/* <OrderItem key={item.id} item={item}></OrderItem> */}</>;
+            return <><OrderItem key={item.id} item={item}></OrderItem> </>;
           })}
       </div>
     </div>

@@ -1,9 +1,12 @@
 import { model, models, Schema } from "mongoose";
 
-const OrderSchema = new Schema({
-
+const OrderObjSchema = new Schema({
     userId: {
         type: String,
+    },
+
+    user: {
+        type: Object,
     },
 
     amount: {
@@ -24,8 +27,16 @@ const OrderSchema = new Schema({
 
     products: {
         type: Array,
+    },
+
+    createDate: {
+        type: Date,
+        default: Date.now,
     }
 
-}, {timestamps: true})
 
-export const Order = models?.Order || model('Order', OrderSchema)
+    
+}, { timestamps: true }
+)
+
+export const OrderObj = models?.OrderObj || model('OrderObj', OrderObjSchema);

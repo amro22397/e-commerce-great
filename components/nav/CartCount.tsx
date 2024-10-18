@@ -14,9 +14,13 @@ const CartCount = () => {
       onClick={() => router.push("/cart")}
     >
       <div className="text-3xl">
-        <CiShoppingCart />
+        <CiShoppingCart className={`${cartTotalQty === 0 && "text-4xl"}`} />
       </div>
-      <span
+      
+      {cartTotalQty === 0 ? (
+        <></>
+      ) : (
+        <span
         className="absolute
       top-[-10px]
       right-[-10px]
@@ -33,6 +37,8 @@ const CartCount = () => {
       >
         {cartTotalQty}
       </span>
+      )}
+
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { CartProductType } from "@prisma/client";
 
 interface SetQtyProps {
     cartCounter?: boolean;
-  cartProduct: CartProductType | null;
+  cartProduct: CartProductType;
   handleQtyIncrease: () => void;
   handleQtyDecrease: () => void;
   setCartProduct: () => void

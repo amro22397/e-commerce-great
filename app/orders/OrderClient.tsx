@@ -7,6 +7,7 @@ import Heading from "@/components/Heading";
 import Status from "@/components/Status";
 import {
   MdAccessTimeFilled,
+  MdDelete,
   MdDeliveryDining,
   MdDone,
   MdRemoveRedEye,
@@ -14,9 +15,11 @@ import {
 import ActionBtn from "@/components/ActionBtn";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface OrdersClientProps {
-  orders: ExtendedOrder[];
+  orders: any[];
 }
 
 type ExtendedOrder = Order & {
@@ -32,11 +35,11 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
     if (orders) {
       rows = orders.map((order) => {
         return {
-          id: order.id,
-          customer: order.user.name,
-          amount: formatPrice(order.amount / 100),
+          id: order._id,
+          customer: order?.user?.name,
+          amount: formatPrice(order.amount),
           paymentStatus: order.status,
-          date: moment(order.createDate).fromNow(),
+          date: order.createDate ? moment(order.createDate).fromNow() : "",
           deliveryStatus: order.deliveryStatus,
         };
       });
@@ -129,25 +132,45 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
           width: 200,
           renderCell: (params) => {
             return (
-              <div className="flex justify-between gap-4 w-full">
+              <div className="flex justify-start gap-4 w-full mt-[10.35px]">
                 <ActionBtn
                   icon={MdRemoveRedEye}
                   onClick={() => {
                     router.push(`/order/${params.row.id}`);
                   }}
                 />
+                
+                <ActionBtn
+              icon={MdDelete}
+              onClick={() => {
+                handleDelete(params.row.id);
+              }}
+            />
               </div>
             );
           },
         },
       ];
 
-  
+  const handleDelete = (id : string) => {
+    if (!confirm("Are you sure you want to delete this order?")) return ;
+
+    axios
+    .delete(`/api/order/${id}`)
+    .then(() => {
+        toast.success("Order deleted successfully..")
+        router.refresh()
+    })
+    .catch((error) => {
+        toast.error("Something went wrong..")
+        console.log(error)
+    })
+  }
 
   return (
     <div className="max-w-[1150px] m-auto text-xl">
       <div className="mb-4 mt-8">
-        <Heading title=" Orders" center />
+        <Heading title="Your Orders" center />
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid

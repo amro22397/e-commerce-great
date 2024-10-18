@@ -10,15 +10,21 @@ import { SafeUser } from "../../types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteMessage from "@/components/DeleteMessage";
+import axios from "axios";
+import { products } from "@/utils/products";
+import toast from "react-hot-toast";
+import { error } from "console";
 
 interface CartClientProps {
-  currentUser: SafeUser | null;
+  currentUser: any | null;
 }
 
 const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
     const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
 
     const [deleteMessage, setDeleteMessage] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
 
 
   const router = useRouter();
@@ -42,6 +48,36 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
         </div>
       </div>
     );
+  }
+
+  console.log(cartProducts, cartTotalAmount)
+
+
+  const handleOrder = async () => {
+
+    setIsLoading(true);
+
+    const order = {
+      userId: currentUser?._id, user: currentUser, products: cartProducts, amount: cartTotalAmount, currency: "usd", 
+      status: "pending", deliveryStatus: "pending"
+    }
+
+    axios
+    .post('/api/order', order)
+    .then(() => {
+      toast.success("Order placed successfully")
+      router.refresh();
+    })
+    .catch((error) => {
+      toast.error("Something went wrong")
+      console.log(error)
+    }).finally(() => {
+      setIsLoading(false)
+      handleClearCart();
+      router.push('/checkout')
+    })
+
+    
   }
 
   return (
@@ -97,7 +133,7 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
             label={currentUser ? "Checkout" : "Login To Checkout"}
             outline={currentUser ? false : true}
             onClick={() => {
-              currentUser ? router.push("/checkout") : router.push("/login");
+              currentUser ? handleOrder() : router.push("/login");
             }}
           />
           <Link

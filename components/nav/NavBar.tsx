@@ -47,7 +47,7 @@ const NavBar = async () => {
             <SearchBar />
             </div>
             
-            <div className="flex items-center gap-8 md:gap-12">
+            <div className="flex flex-row items-center gap-8 md:gap-12">
               {currentUser && (
                 <span className="">Hello, {currentUser?._doc.name}</span>
               )}

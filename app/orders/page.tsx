@@ -9,7 +9,7 @@ import OrderClient from './OrderClient'
 const page = async () => {
     const currentUser = await getCurrentUser()
 
-    if (!currentUser || currentUser._doc.role !== "ADMIN") {
+    if (!currentUser) {
         return (
             <>
             <pre className="hidden">{JSON.stringify(currentUser, null, 2)}</pre>
@@ -19,6 +19,8 @@ const page = async () => {
       }
 
       const orders = await getOrdersByUserId(currentUser._doc._id)
+
+      console.log(orders)
 
   return (
     <div className="pt-8">

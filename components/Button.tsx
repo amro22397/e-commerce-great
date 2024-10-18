@@ -8,6 +8,7 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   custom?: string;
+  moreClass?: string;
   icon?: IconType;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   custom,
+  moreClass,
   icon: Icon,
   onClick,
 }) => {
@@ -37,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
         items-center
         justify-center
         gap-2
+        ${moreClass}
         ${outline ? "bg-white" : "bg-slate-700"}
         ${outline ? "text-slate-700" : "text-white"}
         ${small ? "text-sm font-light" : "text-md font-semibold"}
