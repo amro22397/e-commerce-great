@@ -1,4 +1,5 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
+{/*
+    import { getCurrentUser } from "@/actions/getCurrentUser";
 import { CartProductType } from "@/app/product/[productId]/ProductDetails";
 import { Order } from "@/models/Order";
 import { error } from "console";
@@ -90,3 +91,8 @@ export async function POST(request: Request) {
 
   return NextResponse.error();
 }
+    */}
+
+    export async function POST(request: Request) {
+        console.log('ali')
+    }
