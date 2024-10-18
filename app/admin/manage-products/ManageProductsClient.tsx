@@ -113,7 +113,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({ products })
             <ActionBtn
               icon={MdRemoveRedEye}
               onClick={() => {
-                router.push(`product/${params.row.id}`);
+                router.push(`/product/${params.row.id}`);
               }}
             />
           </div>
@@ -139,6 +139,8 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({ products })
   }, [])
 
   const handleDelete = useCallback( async (id: string, images: any[]) => {
+    if (!confirm("Are you sure you want to delete this product?")) return;
+
     toast("Deleting product, please wait...");
 
     const handleImageDelete = async () => {

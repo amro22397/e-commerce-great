@@ -73,8 +73,8 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
       console.log(error)
     }).finally(() => {
       setIsLoading(false)
-      handleClearCart();
       router.push('/checkout')
+      handleClearCart();
     })
 
     

@@ -4,6 +4,7 @@ import { categories } from "@/utils/Categories";
 import Container from "../Container";
 import { usePathname, useSearchParams } from "next/navigation";
 import Category from "./Category";
+import './Categories.css'
 
 const Categories = () => {
 

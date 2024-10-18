@@ -1,9 +1,9 @@
-import { Order } from "@/models/Order"
+import { OrderObj } from "@/models/OrderObj"
 
 export default async function getOrders(){
     try {
 
-        const orders = await Order.find({
+        const orders = await OrderObj.find({
             user: {$exists: true}
         }).sort({ createDate: -1 })
 

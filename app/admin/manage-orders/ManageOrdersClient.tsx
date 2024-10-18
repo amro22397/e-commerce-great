@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import moment from "moment";
 
 interface ManageOrdersClientProps {
-  orders: ExtendedOrder[];
+  orders: any[];
 }
 
 type ExtendedOrder = Order & {
@@ -37,7 +37,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
   if (orders) {
     rows = orders.map((order) => {
       return {
-        id: order.id,
+        id: order._id,
         customer: order.user.name,
         amount: formatPrice(order.amount / 100),
         paymentStatus: order.status,
@@ -134,17 +134,17 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="flex justify-between gap-4 w-full">
+          <div className="flex justify-between gap-4 w-full mt-[10.35px]">
             <ActionBtn
               icon={MdDeliveryDining}
               onClick={() => {
-                /* handleDispatch(params.row.id); */
+                handleDispatch(params.row.id);
               }}
             />
             <ActionBtn
               icon={MdDone}
               onClick={() => {
-                /* handleDeliver(params.row.id); */
+                handleDeliver(params.row.id);
               }}
             />
             <ActionBtn

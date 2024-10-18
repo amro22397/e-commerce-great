@@ -3,20 +3,40 @@
 import Heading from "@/components/Heading";
 import Status from "@/components/Status";
 import { formatPrice } from "@/utils/formatPrice";
-import { Order } from "@prisma/client";
+import { Order, User } from "@prisma/client";
 import moment from "moment";
 import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md";
 import OrderItem from "./OrderItem";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 interface OrderDetailsProps {
-  order: Order;
+  order: any;
+  currentUser: any;
 }
-const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
+const OrderDetails: React.FC<OrderDetailsProps> = ({ order, currentUser }) => {
   return (
     <div className="max-w-[1150px] m-auto flex flex-col gap-2">
-      <div className="mt-8">
+      <div className="mt-8 flex flex-row justify-between items-center">
         <Heading title="Order Details" />
+
+        <div className="flex flex-col gap-2">
+            {currentUser.role === "ADMIN" && (
+                <Link href='/admin/manage-orders' className="text-md hover:underline flex flex-row items-center gap-1"
+                 ><ArrowLeft size={22} /> Manage Orders</Link>
+            )}
+            
+            {currentUser && (
+                <Link href='/orders' className="text-md hover:underline flex flex-row items-center gap-1"
+                 ><ArrowLeft size={22} /> Your Orders</Link>
+            )}
+
+
+        </div>
       </div>
+
+      <div> <span className="font-semibold">User: </span>
+        {order?.user.name}</div>
 
       <div> <span className="font-semibold">Order ID: </span>
         {order._id}</div>
@@ -96,7 +116,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           <div className="justify-self-end">TOTAL</div>
         </div>
         {order.products &&
-          order.products.map((item) => {
+          order.products.map((item: any) => {
             return <><OrderItem key={item.id} item={item}></OrderItem> </>;
           })}
       </div>

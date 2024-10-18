@@ -45,7 +45,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, deliveryStatus } = body;
 
-    const order = await Product.findByIdAndUpdate({_id: id}, { deliveryStatus } )
+    const order = await OrderObj.updateOne({_id: id}, { deliveryStatus } )
 
     return NextResponse.json(order);
 
