@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import { Product } from "@/models/Product";
 import { Review } from "@/models/Review";
 import { NextResponse } from "next/server";
 
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const {comment, rating, product, userId} = body;
+    const {comment, rating, product, userId, user} = body;
 
     // const deliveredOrder = currentUser?.orders.some((order: any) => order.products.find((item: any) => item.id === product.id) && order.deliveryStatus === 'delivered')
 
@@ -31,7 +32,12 @@ export async function POST(request: Request) {
         comment,
             rating,
             productId: product._id,
-            userId
+            userId,
+            user
+    })
+
+    const productReview = await Product.updateOne({_id: product._id}, {
+        $push: { reviews: review }
     })
 
     return NextResponse.json(review)

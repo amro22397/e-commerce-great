@@ -25,6 +25,8 @@ interface AddRatingProps{
 
 const AddRating:React.FC<AddRatingProps> = ({ product, user }) => {
 
+    console.log(user)
+
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
@@ -51,7 +53,7 @@ const AddRating:React.FC<AddRatingProps> = ({ product, user }) => {
             toast.error('No rating selected')
         }
 
-        const ratingData = {...data, userId: user._id, product: product}
+        const ratingData = {...data, userId: user._id, product: product, user: user}
 
         axios.post('/api/rating', ratingData).then(() => {
             toast.success('Rating submitted');
@@ -64,7 +66,18 @@ const AddRating:React.FC<AddRatingProps> = ({ product, user }) => {
         })
     }
 
-    if (!user || !product) return null;
+    if (!user || !product) return (
+        <div className="max-w-[250px] hidden">
+            <Button
+            label={"Login To Add Review"}
+            outline={true}
+            onClick={() => {
+              router.push("/login");
+            }}
+          />
+        </div>
+        
+    );
 
     {/* 
         const deliveredOrder = user?.orders.some((order: any) => order.products.find((item: any) => item.id === product.id) && order.deliveryStatus === 'delivered')

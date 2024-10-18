@@ -26,6 +26,10 @@ const ReviewSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+
+    user: {
+        type: Object,
+    }
     
     
 }, { timestamps: true }

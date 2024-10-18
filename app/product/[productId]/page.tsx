@@ -28,13 +28,13 @@ const page = async ({ params }: { params: Iprams }) => {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full">
       <Container>
         <pre className="hidden">{JSON.stringify(user, null, 2)}</pre>
         <ProductDetails product={product} />
-        <div className="flex flex-col mt-20 gap-4">
+        <div className="flex flex-col mt-20 gap-8">
           <AddRating product={product} user={user?._doc} />
-        <ListRating product={product} />
+        <ListRating product={product} user={user?._doc} />
         </div>
       </Container>
     </div>
