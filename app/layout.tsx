@@ -5,7 +5,6 @@ import { Poppins } from 'next/font/google'
 import Footer from '@/components/footer/Footer'
 import CartProvider from '@/providers/CartProvider'
 import { Toaster } from 'react-hot-toast'
-import { getCurrentUser } from '@/actions/getCurrentUser'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -34,6 +33,7 @@ export default async function RootLayout({
             },
           }}
         />
+        
       <CartProvider>
       <div className="flex flex-col min-h-screen">
       <NavBar />
