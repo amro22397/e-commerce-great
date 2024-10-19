@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@/actions/getCurrentUser'
+/* import { getCurrentUser } from '@/actions/getCurrentUser'
 import Container from '@/components/Container'
 import NullData from '@/components/NullData'
 import React from 'react'
@@ -21,11 +21,23 @@ const page = async () => {
   return (
     <div className="pt-8">
     <Container>
-    <pre className="hidden">{JSON.stringify([], null, 2)}</pre>
       <ManageOrdersClient orders={orders}/>
     </Container>
   </div>
   )
 }
 
+export default page */
+
+import React from 'react'
+
+const page = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
 export default page
+
