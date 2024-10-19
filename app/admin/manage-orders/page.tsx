@@ -1,4 +1,4 @@
-/* import Container from '@/components/Container'
+import Container from '@/components/Container'
 import NullData from '@/components/NullData'
 import React from 'react'
 import ManageOrdersClient from './ManageOrdersClient'
@@ -28,16 +28,4 @@ const page = async () => {
 }
 
 export default page 
-*/
 
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
-
-export default page

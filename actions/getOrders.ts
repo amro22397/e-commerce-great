@@ -5,7 +5,7 @@ export default async function getOrders(){
 
         const orders = await OrderObj.find({
             user: {$exists: true}
-        }).sort({ createDate: -1 })
+        }).sort({ createdAt: -1 })
 
         return orders
     } catch (error: any) {

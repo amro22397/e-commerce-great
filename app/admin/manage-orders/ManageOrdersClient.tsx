@@ -1,5 +1,3 @@
-/*
-
 "use client";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -17,7 +15,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import moment from "moment";
+
 
 interface ManageOrdersClientProps {
   orders: any[];
@@ -42,7 +40,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
         customer: order.user.name,
         amount: formatPrice(order.amount),
         paymentStatus: order.status,
-        date: moment(order.createDate).fromNow(),
+        date: "",//moment(order.createDate).fromNow(),
         deliveryStatus: order.deliveryStatus,
       };
     });
@@ -201,7 +199,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 				<DeleteMessage text={"Are you sure you want to delete this product?"}
 				setDeleteMessage={setDeleteMessage} handleDeletePost={() => handleRemoveProductFromCart(item)} />
 			)}
-        /*}
+        */}
 
         <div className="mb-4 mt-8">
         <Heading title="Manage Orders" center />
@@ -221,20 +219,6 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
           disableRowSelectionOnClick
         />
       </div>
-    </div>
-  )
-}
-
-export default ManageOrdersClient
-
-*/
-
-import React from 'react'
-
-const ManageOrdersClient = () => {
-  return (
-    <div>
-      
     </div>
   )
 }
