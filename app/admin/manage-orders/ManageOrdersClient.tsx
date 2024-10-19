@@ -1,5 +1,7 @@
-"use client";
 /*
+
+"use client";
+
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { formatPrice } from "@/utils/formatPrice";
 import Heading from "@/components/Heading";
@@ -226,3 +228,15 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 export default ManageOrdersClient
 
 */
+
+import React from 'react'
+
+const ManageOrdersClient = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+export default ManageOrdersClient
