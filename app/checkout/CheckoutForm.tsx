@@ -76,6 +76,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
             Checkout Form is not available now I will make it available once
             I make Stripe Account...
         </span>
+        <span className="text-center text-rose-600">
+            Your order is placed but it will not be delivered until payment completed...
+        </span>
       </div>
       <h2 className="font-semibold mb-2">Address Information</h2>
 
