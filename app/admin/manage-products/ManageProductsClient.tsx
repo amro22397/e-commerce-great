@@ -16,10 +16,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import firebaseApp from "@/libs/firebase";
-import { Paper } from "@mui/material";
 import Status from "@/components/Status";
 import ActionBtn from "@/components/ActionBtn";
-import DeleteMessage from "@/components/DeleteMessage";
 
 interface ManageProductsClientProps {
     products: any[] | undefined;

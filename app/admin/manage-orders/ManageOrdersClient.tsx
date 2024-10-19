@@ -15,10 +15,11 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 
 interface ManageOrdersClientProps {
-  orders: any[];
+  orders: any[] | undefined;
 }
 
 type ExtendedOrder = any & {
@@ -40,7 +41,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
         customer: order.user.name,
         amount: formatPrice(order.amount),
         paymentStatus: order.status,
-        date: "",//moment(order.createDate).fromNow(),
+        date: moment(order.createDate).fromNow(),
         deliveryStatus: order.deliveryStatus,
       };
     });

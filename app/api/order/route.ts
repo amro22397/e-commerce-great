@@ -32,9 +32,12 @@ export async function POST(request: Request) {
 
 
 export async function PUT(request: Request) {
-    const currentUser = await getCurrentUser();
 
     mongoose.connect(process.env.DATABASE_URL as string);
+
+    try {
+        
+        const currentUser = await getCurrentUser();
 
     if (!currentUser) return NextResponse.error();
 
@@ -48,6 +51,11 @@ export async function PUT(request: Request) {
     const order = await OrderObj.updateOne({_id: id}, { deliveryStatus } )
 
     return NextResponse.json(order);
+
+    } catch (error) {
+        console.log(error)
+    return NextResponse.error();
+    }
 
 }
 
