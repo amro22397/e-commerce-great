@@ -37,6 +37,7 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
         return {
           id: order._id,
           customer: order?.user?.name,
+          products: order.products,
           amount: formatPrice(order.amount),
           paymentStatus: order.status,
           date: order.createDate ? moment(order.createDate).fromNow() : "",

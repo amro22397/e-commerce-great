@@ -1,9 +1,9 @@
-/* import { getCurrentUser } from '@/actions/getCurrentUser'
 import Container from '@/components/Container'
 import NullData from '@/components/NullData'
 import React from 'react'
 import ManageOrdersClient from './ManageOrdersClient'
 import getOrders from '@/actions/getOrders'
+import { getCurrentUser } from '@/actions/getCurrentUser'
 
 const page = async () => {
     const orders = await getOrders()
@@ -27,17 +27,4 @@ const page = async () => {
   )
 }
 
-export default page */
-
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
-
 export default page
-

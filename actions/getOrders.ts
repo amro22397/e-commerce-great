@@ -9,6 +9,6 @@ export default async function getOrders(){
 
         return orders
     } catch (error: any) {
-        throw new Error(error)
+        throw new Error(error) 
     }
 }
