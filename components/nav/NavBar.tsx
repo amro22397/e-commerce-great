@@ -23,7 +23,7 @@ const NavBar = async () => {
   bg-slate-200
   z-30
   shadow-sm'>
-      <div className="py-4 border-b-[1px]">
+      <div className="py-4 border-b-[1px] px-4">
         <Container>
           
           <div className="flex

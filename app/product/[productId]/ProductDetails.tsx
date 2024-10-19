@@ -113,7 +113,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         handleColorSelect={handleColorSelect}
       />
 
-      <div className="flex flex-col gap-1 text-slate-500 text-sm justify-center">
+      <div className="flex flex-col gap-1 text-slate-500 text-sm justify-center
+      px-4">
       <h2 className="text-3xl font-medium text-slate-700">{product.name}</h2>
 
       <div className="flex items-center gap-2">

@@ -15,7 +15,7 @@ const page = async () => {
   // const graphData = await getGraphData();
 
   return (
-    <div className="pt-8">
+    <div className="p-8 max-md:px-1 md:px-2 lg:px-8">
     <Container>
       <Summary products={products} orders={orders} users={users}/>
       <div className="mt-4 mx-auto max-w-[1150px]">

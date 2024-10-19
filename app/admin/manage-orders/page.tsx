@@ -1,4 +1,4 @@
-import Container from '@/components/Container'
+/* import Container from '@/components/Container'
 import NullData from '@/components/NullData'
 import React from 'react'
 import ManageOrdersClient from './ManageOrdersClient'
@@ -27,4 +27,5 @@ const page = async () => {
   )
 }
 
-export default page
+export default page 
+*/

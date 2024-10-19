@@ -1,5 +1,5 @@
 "use client";
-
+/*
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { formatPrice } from "@/utils/formatPrice";
 import Heading from "@/components/Heading";
@@ -199,7 +199,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 				<DeleteMessage text={"Are you sure you want to delete this product?"}
 				setDeleteMessage={setDeleteMessage} handleDeletePost={() => handleRemoveProductFromCart(item)} />
 			)}
-        */}
+        /*}
 
         <div className="mb-4 mt-8">
         <Heading title="Manage Orders" center />
@@ -224,3 +224,5 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 }
 
 export default ManageOrdersClient
+
+*/

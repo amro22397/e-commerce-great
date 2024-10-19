@@ -17,7 +17,7 @@ const AddProducts = async () => {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 max-md:px-0 md:px-2 lg:px-8">
       <Container>
         <FormWrap>
           <AddProductForm />
