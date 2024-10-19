@@ -203,6 +203,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 
         <div className="mb-4 mt-8">
         <Heading title="Manage Orders" center />
+        <></>
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid
