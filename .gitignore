@@ -20,8 +20,6 @@
 *.pem
 firebase
 .env.local
-.env
-
 
 # debug
 npm-debug.log*

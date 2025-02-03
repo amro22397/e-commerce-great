@@ -1,35 +1,45 @@
 import { User } from "@/models/User";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { SafeUser } from "@/types";
+import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
 
 export async function getSession() {
     return await getServerSession(authOptions);
-  }
+}
 
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<any> {
     try {
-        const session = await getSession();
+        let session = await getSession();
 
-    if (!session?.user?.email) {
-      return null;
-    }
+        if (!session?.user?.email) {
+            return null;
+        }
 
-        const currentUser = await User.findOne({ email: session?.user?.email,
+        mongoose.connect(process.env.DATABASE_URL as string);
+        const currentUser = await User.findOne({
+            email: session?.user?.email,
             orders: { $exists: true }
-         }
+        }
         )
 
         if (!currentUser) {
-            return null
+            const user = await User.create({
+                name: session?.user.name,
+                email: session?.user?.email,
+                image: session?.user?.image,
+              })
+              session.user = user;
+
+              return session;
+        } else {
+            session.user = currentUser;
+
+            return session;
         }
 
-        return {
-            ...currentUser,
-            createdAt: currentUser.createdAt.toString(),
-            updateAt: currentUser.updatedAt.toString(),
-            emailVerified: currentUser.emailVerified?.toISOString() || null,
-          };
+        
     } catch (error: any) {
         console.log(error)
     }

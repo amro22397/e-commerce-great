@@ -18,7 +18,7 @@ const page = async () => {
         );
       }
 
-      const orders = await getOrdersByUserId(currentUser._doc._id)
+      const orders = await getOrdersByUserId(currentUser?.user?._id as string)
 
       console.log(orders)
 

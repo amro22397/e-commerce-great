@@ -1,5 +1,4 @@
 import { Product } from "@/models/Product";
-import { create } from "domain";
 import mongoose from "mongoose";
 
 
@@ -15,14 +14,17 @@ interface IParams{
         const {productId} = params;
         console.log(productId)
 
-        const product = await Product.findOne({ _id: productId }
-        ).sort({ createdAt: -1 });
+        const product = await Product.findOne({_id: productId})
 
-        if (!product) {
-            return null;
+        console.log(product)
+
+        const jProduct = JSON.parse(JSON.stringify(product));
+
+        if (!jProduct) {
+            // return null;
         }
 
-        return product;
+        return jProduct;
 
     } catch (error: any) {
         throw new Error(error)

@@ -8,12 +8,16 @@ import { getCurrentUser } from '@/actions/getCurrentUser'
 import { json } from 'stream/consumers'
 import Categories from './Categories'
 import SearchBar from '../SearchBar'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 
 const redressed = Redressed({ subsets: ['latin'], weight: ["400"]})
 
 const NavBar = async () => {
   const currentUser = await getCurrentUser();
+
+  console.log(currentUser)
 
 
   return (
@@ -24,6 +28,9 @@ const NavBar = async () => {
   z-30
   shadow-sm'>
       <div className="py-4 border-b-[1px] px-4">
+      <pre className='hidden'
+            >{JSON.stringify(currentUser, null, 2)}</pre>
+
         <Container>
           
           <div className="flex
@@ -39,8 +46,7 @@ const NavBar = async () => {
               E-Shop
             </Link>
 
-            <pre className='hidden'
-            >{JSON.stringify(currentUser, null, 2)}</pre>
+            
 
             
             <div className="hidden md:block">
@@ -49,11 +55,11 @@ const NavBar = async () => {
             
             <div className="flex flex-row items-center gap-8 md:gap-12">
               {currentUser && (
-                <span className="">Hello, {currentUser?._doc.name}</span>
+                <span className="">Hello, {currentUser.user?.name}</span>
               )}
 
               <CartCount />
-              <UserMenu currentUser={currentUser?._doc} />
+              <UserMenu currentUser={currentUser?.user} />
             </div>
 
           </div>

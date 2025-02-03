@@ -7,7 +7,9 @@ export default async function getOrders(){
             user: {$exists: true}
         }).sort({ createdAt: -1 })
 
-        return orders
+        const jOrders = JSON.parse(JSON.stringify(orders));
+
+        return jOrders
     } catch (error: any) {
         throw new Error(error) 
     }

@@ -9,7 +9,7 @@ const page = async () => {
   return (
     <div className='p-8 max-md:px-[8px] md:px-2 lg:px-8'>
     <Container >
-      <CartClient currentUser={currentUser?._doc} />
+      <CartClient currentUser={currentUser?.user} />
     </Container>
   </div>
   )

@@ -32,9 +32,11 @@ export interface IProductParams {
             ]
         }).sort({createdAt: -1})
 
-        console.log(products)
+        const jProducts = JSON.parse(JSON.stringify(products));
 
-        return products;
+        console.log(jProducts)
+
+        return jProducts;
     } catch (error) {
         console.log(error)
     }

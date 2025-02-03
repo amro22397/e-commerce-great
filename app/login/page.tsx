@@ -8,7 +8,7 @@ const page = async () => {
   return (
     <Container>
       <FormWrap>
-        <LoginForm currentUser={currentUser?._doc}/>
+        <LoginForm currentUser={currentUser?.user}/>
       </FormWrap>
     </Container>
   )

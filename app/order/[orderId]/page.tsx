@@ -16,7 +16,7 @@ const page = async ({ params }: { params: Iprams }) => {
   return (
     <div className="p-8 max-md:px-2 md:px-2 lg:px-8">
       <Container>
-        <OrderDetails order={order} currentUser={currentUser._doc} />
+        <OrderDetails order={order} currentUser={currentUser?.user} />
         
       </Container>
     </div>

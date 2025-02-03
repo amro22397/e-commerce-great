@@ -9,7 +9,7 @@ const Register = async () => {
   return (
     <Container>
       <FormWrap>
-        <RegisterForm currentUser={currentUser?._doc} />
+        <RegisterForm currentUser={currentUser?.user} />
       </FormWrap>
     </Container>
   );

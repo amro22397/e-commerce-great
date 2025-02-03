@@ -41,7 +41,7 @@ export async function PUT(request: Request) {
 
     if (!currentUser) return NextResponse.error();
 
-    if (currentUser._doc.role !== 'ADMIN') {
+    if (currentUser?.user?.role !== 'ADMIN') {
         return NextResponse.error();
     }
 

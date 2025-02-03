@@ -18,10 +18,11 @@ interface IParams {
         const { orderId } = params;
 
         const order = await OrderObj.findOne({ _id: orderId });
+        const jOrder = JSON.parse(JSON.stringify(order));
 
-        if (!order) return null;
+        if (!jOrder) return null;
 
-        return order
+        return jOrder
     } catch (error: any) {
         throw new Error(error)
     }

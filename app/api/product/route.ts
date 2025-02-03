@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser._doc.role !== 'ADMIN') {
+    if (!currentUser || currentUser?.user?.role !== 'ADMIN') {
         return NextResponse.error();
     }
 
@@ -32,7 +32,7 @@ export async function PUT(request: Request) {
 
     if (!currentUser) return NextResponse.error();
 
-    if (currentUser._doc.role !== 'ADMIN') {
+    if (currentUser?.user?.role !== 'ADMIN') {
         return NextResponse.error();
     }
 

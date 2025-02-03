@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { SafeUser } from "@/types";
 
 interface LoginFormProps {
-  currentUser: SafeUser | null;
+  currentUser: SafeUser | null | undefined;
 }
 const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
 

@@ -9,7 +9,7 @@ const page = async () => {
     const products = await getProducts({category: null})
     const currentUser = await getCurrentUser()
 
-    if (!currentUser || currentUser._doc.role !== "ADMIN") {
+    if (!currentUser || currentUser?.user?.role !== "ADMIN") {
         return (
             <>
             <pre className="hidden">{JSON.stringify(currentUser, null, 2)}</pre>

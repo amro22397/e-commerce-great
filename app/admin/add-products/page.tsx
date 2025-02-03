@@ -7,7 +7,7 @@ import NullData from "@/components/NullData";
 const AddProducts = async () => {
   const currentUser = await getCurrentUser();
 
-  if (!currentUser || currentUser._doc.role !== "ADMIN") {
+  if (!currentUser || currentUser?.user?.role !== "ADMIN") {
     return (
         <>
         <pre className="hidden">{JSON.stringify(currentUser, null, 2)}</pre>

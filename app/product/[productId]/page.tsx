@@ -17,7 +17,7 @@ interface Iprams {
 const page = async ({ params }: { params: Iprams }) => {
 
   const product = await getProductById(params)
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(); 
 
   if (!product) {
     return (
@@ -33,8 +33,8 @@ const page = async ({ params }: { params: Iprams }) => {
         <pre className="hidden">{JSON.stringify(user, null, 2)}</pre>
         <ProductDetails product={product} />
         <div className="flex flex-col mt-20 gap-8 max-md:px-4">
-          <AddRating product={product} user={user?._doc} />
-        <ListRating product={product} user={user?._doc} />
+          <AddRating product={product} user={user?.user} />
+        <ListRating product={product} user={user?.user} />
         </div>
       </Container>
     </div>
